@@ -1,0 +1,1442 @@
+//HomePage.js
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const HomePage = () => {
+    const navigate = useNavigate();
+
+    const handleSignUp = () => {
+        navigate('/signup'); // Navigate to the signup page
+    };
+
+    const handleLogin = () => {
+        navigate('/login'); // Navigate to the login page
+    };
+
+    const styles = {
+        container: {
+            fontFamily: 'Arial, sans-serif',
+            textAlign: 'center',
+            backgroundColor: '#f9f9f9',
+            paddingBottom: '100px', // Extra padding for fixed footer
+            minHeight: '100vh',
+            backgroundImage: 'url("https://financeonamission.com/wp-content/uploads/2023/08/data-visualozation.jpg")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+        },
+        header: {
+            backgroundColor: '#4a4a99',
+            color: 'white',
+            padding: '20px 0',
+            position: 'relative', // Header will scroll with the page
+        },
+        headerText: {
+            fontSize: '36px',
+            margin: '0',
+        },
+        subText: {
+            fontSize: '18px',
+            margin: '0',
+            color: '#e0e0e0',
+        },
+        mainContent: {
+            maxWidth: '800px',
+            margin: '30px auto',
+            backgroundColor: 'rgba(255,255,255,0.5)',
+            borderRadius: '8px',
+            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+            padding: '40px 20px',
+        },
+        heading: {
+            fontSize: '28px',
+            marginBottom: '20px',
+            color: '#333',
+        },
+        paragraph: {
+            fontSize: '18px',
+            lineHeight: '1.6',
+            marginBottom: '30px',
+            color: '#666',
+        },
+        featureList: {
+            display: 'flex',
+            justifyContent: 'space-around',
+            marginBottom: '40px',
+        },
+        featureItem: {
+            maxWidth: '250px',
+        },
+        featureTitle: {
+            fontSize: '20px',
+            marginBottom: '10px',
+            color: '#333',
+        },
+        featureDescription: {
+            fontSize: '16px',
+            color: '#666',
+        },
+        button: {
+            padding: '15px 30px',
+            backgroundColor: '#4a4a99',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '18px',
+            marginBottom: '10px',
+            marginRight: '10px',
+        },
+        footer: {
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            width: '100%',
+            backgroundColor: '#4a4a99',
+            color: 'white',
+            padding: '20px 0',
+            textAlign: 'center',
+            zIndex: 1000,
+        },
+        footerText: {
+            margin: '0',
+            fontSize: '14px',
+        },
+    };
+
+    return (
+        <div style={styles.container}>
+            {/* Header Section */}
+            <header style={styles.header}>
+                <h1 style={styles.headerText}>Welcome to Your Accounting System</h1>
+                <p style={styles.subText}>Manage your business finances with ease</p>
+            </header>
+
+            {/* Main Content Section */}
+            <div style={styles.mainContent}>
+                <h2 style={styles.heading}>All-in-One Accounting Solution</h2>
+                <p style={styles.paragraph}>
+                    Our accounting system is designed to simplify your business finances, helping you track income, manage expenses, and generate insightful financial reports. Whether you're a freelancer or managing a larger company, our platform adapts to your needs.
+                </p>
+
+                {/* Features Section */}
+                <div style={styles.featureList}>
+                    <div style={styles.featureItem}>
+                        <h3 style={styles.featureTitle}>Track Transactions</h3>
+                        <p style={styles.featureDescription}>
+                            Easily monitor your incoming and outgoing transactions, keeping your financials up to date.
+                        </p>
+                    </div>
+                    <div style={styles.featureItem}>
+                        <h3 style={styles.featureTitle}>Generate Reports</h3>
+                        <p style={styles.featureDescription}>
+                            Generate detailed reports for income, expenses, and overall financial performance in just a few clicks.
+                        </p>
+                    </div>
+                    <div style={styles.featureItem}>
+                        <h3 style={styles.featureTitle}>Manage Invoices</h3>
+                        <p style={styles.featureDescription}>
+                            Create and send invoices to clients, and track payments with ease.
+                        </p>
+                    </div>
+                </div>
+
+                {/* Buttons to Sign Up or Login */}
+                <button onClick={handleSignUp} style={styles.button}>
+                    Create Account
+                </button>
+                <button onClick={handleLogin} style={styles.button}>
+                    Login
+                </button>
+            </div>
+
+            {/* Fixed Footer Section */}
+            <footer style={styles.footer}>
+                <p style={styles.footerText}>© 2024 Accounting System. All rights reserved.</p>
+            </footer>
+        </div>
+    );
+};
+
+export default HomePage;
+
+
+
+
+//Login.js
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    if (email && password) {
+      try {
+        // Fetch all users and check if a user with matching email and password exists
+        const response = await axios.get('http://localhost:3000/users');
+        const user = response.data.find(
+          (user) => user.email === email && user.password === password
+        );
+
+        if (user) {
+          navigate('/log'); // Navigate to home page on successful login
+        } else {
+          alert('Invalid email or password. Please try again.');
+        }
+      } catch (error) {
+        alert('Login failed. Please try again.');
+        console.error(error);
+      }
+    } else {
+      alert("Please enter email and password.");
+    }
+  };
+
+  const styles = {
+    container: {
+      width: '100vw',
+      height: '100vh',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundImage: 'url("https://financeonamission.com/wp-content/uploads/2023/08/data-visualozation.jpg")',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+          },
+      form: {
+      backgroundColor: 'rgba(255, 255, 255, 0.5)',
+      padding: '50px',
+      borderRadius: '10px',
+      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+      width: '350px',
+      height: '300px',
+      textAlign: 'center',
+          },
+      input: {
+      width: '100%',
+      padding: '10px',
+      margin: '10px 0',
+      borderRadius: '5px',
+      border: '1px solid #ccc',
+          },
+      button: {
+      width: '100px',
+      padding: '10px',
+      backgroundColor: 'blue',
+      color: '#fff',
+      border: 'none',
+      borderRadius: '5px',
+      cursor: 'pointer',
+      marginTop: '20px',
+          },
+      signup: {
+      marginTop: '20px',
+          },
+  };
+
+  return (
+    <div style={styles.container}>
+      <div style={styles.form}>
+        <h1>Login</h1>
+        <form onSubmit={handleLogin}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={styles.input}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={styles.input}
+            required
+          />
+          <button type="submit" style={styles.button}>Login</button>
+          <div style={styles.signup}>
+            Don't have an account? <a href="/signup">Sign up</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
+
+
+//Signup.js
+
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+const Signup = () => {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+
+    if (username && email && password) {
+      const newUser = { username, email, password };
+
+      try {
+        // Send POST request to add new user to db.json
+        await axios.post('http://localhost:3000/users', newUser);
+
+        alert('Signup successful!');
+        navigate('/login'); // Redirect to login page after successful signup
+      } catch (error) {
+        alert('Signup failed. Please try again.');
+        console.error(error);
+      }
+    } else {
+      alert('Please fill out all fields.');
+    }
+  };
+
+  const styles = {
+    container: {
+      width: '100vw',
+      height: '100vh',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundImage: 'url("https://financeonamission.com/wp-content/uploads/2023/08/data-visualozation.jpg")',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+          },
+      form: {
+      textAlign: 'center',
+      backgroundColor: 'rgba(255, 255, 255, 0.5)',
+      padding: '50px',
+      borderRadius: '10px',
+      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+      width: '350px',
+      height: '350px',
+          },
+      input: {
+      width: '100%',
+      padding: '10px',
+      margin: '10px 0',
+      borderRadius: '5px',
+      border: '1px solid #ccc',
+          },
+      button: {
+      width: '100px',
+      padding: '10px',
+      backgroundColor: 'blue',
+      color: '#fff',
+      border: 'none',
+      borderRadius: '5px',
+      cursor: 'pointer',
+          },
+      login: {
+      marginTop: '20px',
+          },
+  };
+
+  return (
+    <div style={styles.container}>
+      <div style={styles.form}>
+        <h1>Sign Up</h1>
+        <form onSubmit={handleSignup}>
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            style={styles.input}
+            required
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={styles.input}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={styles.input}
+            required
+          />
+          <button type="submit" style={styles.button}>
+            Sign Up
+          </button>
+          <div style={styles.login}>
+            Already have an account? <a href="/login">Login</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default Signup;
+
+
+
+//LoggedinHome.js
+
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const LoggedInHomePage = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        // Handle logout logic (e.g., clearing user session)
+        navigate('/home'); // Navigate back to the login page after logout
+    };
+
+    const styles = {
+        container: {
+            fontFamily: 'Arial, sans-serif',
+            textAlign: 'center',
+            backgroundColor: '#f4f4f9',
+            paddingTop: '80px', // Space for the navbar
+            paddingBottom: '100px', // Padding for fixed footer
+            minHeight: '100vh',
+            backgroundImage: 'url("https://financeonamission.com/wp-content/uploads/2023/08/data-visualozation.jpg")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+        },
+        header: {
+            backgroundColor: '#4a4a99',
+            color: 'white',
+            padding: '20px 0',
+            position: 'fixed', // Fixed at the top
+            top: 0,
+            left: 0,
+            width: '100%',
+            zIndex: 1000,
+        },
+        nav: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            padding: '0 20px',
+        },
+        navLinks: {
+            display: 'flex',
+            gap: '15px',
+        },
+        navLink: {
+            color: 'white',
+            textDecoration: 'none',
+            fontSize: '16px',
+            padding: '10px',
+            cursor: 'pointer',
+        },
+        navButton: {
+            padding: '10px 20px',
+            backgroundColor: '#4a4a99',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+        },
+        mainContent: {
+            maxWidth: '1200px',
+            margin: '40px auto',
+            backgroundColor: 'rgba(255,255,255,0.5)',
+            borderRadius: '8px',
+            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+            padding: '40px 20px',
+        },
+        sectionTitle: {
+            fontSize: '24px',
+            marginBottom: '20px',
+            color: '#333',
+        },
+        cardGrid: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '20px',
+        },
+        card: {
+            backgroundColor: '#f9f9f9',
+            borderRadius: '8px',
+            boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+            padding: '20px',
+            flex: '1',
+            minWidth: '250px',
+            textAlign: 'left',
+        },
+        cardTitle: {
+            fontSize: '20px',
+            marginBottom: '10px',
+            color: '#333',
+        },
+        cardContent: {
+            fontSize: '16px',
+            color: '#666',
+        },
+        footer: {
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            width: '100%',
+            backgroundColor: '#4a4a99',
+            color: 'white',
+            padding: '20px 0',
+            textAlign: 'center',
+        },
+        footerText: {
+            margin: '0',
+            fontSize: '14px',
+        },
+    };
+
+    return (
+        <div style={styles.container}>
+            {/* Header Section with Nav Bar */}
+            <header style={styles.header}>
+                <div style={styles.nav}>
+                    <h1 style={{ margin: '0', fontSize: '24px' }}>Accounting System</h1>
+                    <div style={styles.navLinks}>
+                        <a href="/log" style={styles.navLink}>Home</a>
+                        <a href="/features" style={styles.navLink}>Features</a>
+                        <a href="/transactions" style={styles.navLink}>Transactions</a>
+                        <a href="/reports" style={styles.navLink}>Reports</a>                        <button onClick={handleLogout} style={styles.navButton}>Logout</button>
+                    </div>
+                </div>
+            </header>
+
+            {/* Main Content Section */}
+            <div style={styles.mainContent}>
+                <h2 style={styles.sectionTitle}>Welcome Back! Here's an Overview of Your Finances</h2>
+
+                {/* Cards for different sections */}
+                <div style={styles.cardGrid}>
+                    <div style={styles.card}>
+                        <h3 style={styles.cardTitle}>Recent Transactions</h3>
+                        <p style={styles.cardContent}>
+                            Keep track of your latest income and expenses. Click to view detailed transactions.
+                        </p>
+                    </div>
+
+                    <div style={styles.card}>
+                        <h3 style={styles.cardTitle}>Generate Reports</h3>
+                        <p style={styles.cardContent}>
+                            Create customized financial reports for your business. Analyze your performance easily.
+                        </p>
+                    </div>
+
+                    <div style={styles.card}>
+                        <h3 style={styles.cardTitle}>Manage Invoices</h3>
+                        <p style={styles.cardContent}>
+                            View pending and paid invoices, or create new ones to send to your clients.
+                        </p>
+                    </div>
+
+                    <div style={styles.card}>
+                        <h3 style={styles.cardTitle}>Account Settings</h3>
+                        <p style={styles.cardContent}>
+                            Update your account details and preferences here.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {/* Fixed Footer Section */}
+            <footer style={styles.footer}>
+                <p style={styles.footerText}>© 2024 Accounting System. All rights reserved.</p>
+            </footer>
+        </div>
+    );
+};
+
+export default LoggedInHomePage;
+
+
+
+
+HomePage.js
+
+
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const HomePage = () => {
+    const navigate = useNavigate();
+
+    const handleSignUp = () => {
+        navigate('/signup'); // Navigate to the signup page
+    };
+
+    const handleLogin = () => {
+        navigate('/login'); // Navigate to the login page
+    };
+
+    const styles = {
+        container: {
+            fontFamily: 'Arial, sans-serif',
+            textAlign: 'center',
+            backgroundColor: '#f9f9f9',
+            paddingBottom: '100px', // Extra padding for fixed footer
+            minHeight: '100vh',
+            backgroundImage: 'url("https://financeonamission.com/wp-content/uploads/2023/08/data-visualozation.jpg")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+        },
+        header: {
+            backgroundColor: '#4a4a99',
+            color: 'white',
+            padding: '20px 0',
+            position: 'relative', // Header will scroll with the page
+        },
+        headerText: {
+            fontSize: '36px',
+            margin: '0',
+        },
+        subText: {
+            fontSize: '18px',
+            margin: '0',
+            color: '#e0e0e0',
+        },
+        mainContent: {
+            maxWidth: '800px',
+            margin: '30px auto',
+            backgroundColor: 'rgba(255,255,255,0.5)',
+            borderRadius: '8px',
+            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+            padding: '40px 20px',
+        },
+        heading: {
+            fontSize: '28px',
+            marginBottom: '20px',
+            color: '#333',
+        },
+        paragraph: {
+            fontSize: '18px',
+            lineHeight: '1.6',
+            marginBottom: '30px',
+            color: '#666',
+        },
+        featureList: {
+            display: 'flex',
+            justifyContent: 'space-around',
+            marginBottom: '40px',
+        },
+        featureItem: {
+            maxWidth: '250px',
+        },
+        featureTitle: {
+            fontSize: '20px',
+            marginBottom: '10px',
+            color: '#333',
+        },
+        featureDescription: {
+            fontSize: '16px',
+            color: '#666',
+        },
+        button: {
+            padding: '15px 30px',
+            backgroundColor: '#4a4a99',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '18px',
+            marginBottom: '10px',
+            marginRight: '10px',
+        },
+        footer: {
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            width: '100%',
+            backgroundColor: '#4a4a99',
+            color: 'white',
+            padding: '20px 0',
+            textAlign: 'center',
+            zIndex: 1000,
+        },
+        footerText: {
+            margin: '0',
+            fontSize: '14px',
+        },
+    };
+
+    return (
+        <div style={styles.container}>
+            {/* Header Section */}
+            <header style={styles.header}>
+                <h1 style={styles.headerText}>Welcome to Your Accounting System</h1>
+                <p style={styles.subText}>Manage your business finances with ease</p>
+            </header>
+
+            {/* Main Content Section */}
+            <div style={styles.mainContent}>
+                <h2 style={styles.heading}>All-in-One Accounting Solution</h2>
+                <p style={styles.paragraph}>
+                    Our accounting system is designed to simplify your business finances, helping you track income, manage expenses, and generate insightful financial reports. Whether you're a freelancer or managing a larger company, our platform adapts to your needs.
+                </p>
+
+                {/* Features Section */}
+                <div style={styles.featureList}>
+                    <div style={styles.featureItem}>
+                        <h3 style={styles.featureTitle}>Track Transactions</h3>
+                        <p style={styles.featureDescription}>
+                            Easily monitor your incoming and outgoing transactions, keeping your financials up to date.
+                        </p>
+                    </div>
+                    <div style={styles.featureItem}>
+                        <h3 style={styles.featureTitle}>Generate Reports</h3>
+                        <p style={styles.featureDescription}>
+                            Generate detailed reports for income, expenses, and overall financial performance in just a few clicks.
+                        </p>
+                    </div>
+                    <div style={styles.featureItem}>
+                        <h3 style={styles.featureTitle}>Manage Invoices</h3>
+                        <p style={styles.featureDescription}>
+                            Create and send invoices to clients, and track payments with ease.
+                        </p>
+                    </div>
+                </div>
+
+                {/* Buttons to Sign Up or Login */}
+                <button onClick={handleSignUp} style={styles.button}>
+                    Create Account
+                </button>
+                <button onClick={handleLogin} style={styles.button}>
+                    Login
+                </button>
+            </div>
+
+            {/* Fixed Footer Section */}
+            <footer style={styles.footer}>
+                <p style={styles.footerText}>© 2024 Accounting System. All rights reserved.</p>
+            </footer>
+        </div>
+    );
+};
+
+export default HomePage;
+
+
+
+
+//FeaturesPage.js
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const FeaturesPage = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        // Handle logout logic (e.g., clearing user session)
+        navigate('/login'); // Navigate back to the login page after logout
+    };
+
+
+    const styles = {
+        container: {
+            fontFamily: 'Arial, sans-serif',
+            padding: '20px',
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            minHeight: '100vh',
+        },
+        heading: {
+            textAlign: 'center',
+            fontSize: '24px',
+            marginBottom: '20px',
+        },
+        featureList: {
+            listStyleType: 'none',
+            padding: 0,
+        },
+        featureItem: {
+            marginBottom: '15px',
+            padding: '10px',
+            border: '1px solid #ccc',
+            borderRadius: '5px',
+            backgroundColor: '#f9f9f9',
+        },
+        buttonBack: {
+            padding: '10px 20px',
+            backgroundColor: 'rgb(37, 37, 92)',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            display: 'block',
+            margin: '20px auto',
+        },
+    };
+
+    return (
+        <div style={styles.container}>
+            <h1 style={styles.heading}>Features of the Accounting System</h1>
+            <ul style={styles.featureList}>
+                <li style={styles.featureItem}>
+                    <h2>Transaction Management</h2>
+                    <p>Add, view, and delete transactions easily with our intuitive interface.</p>
+                </li>
+                <li style={styles.featureItem}>
+                    <h2>Reporting</h2>
+                    <p>Generate detailed reports to analyze your income and expenses over time.</p>
+                </li>
+                <li style={styles.featureItem}>
+                    <h2>User-Friendly Interface</h2>
+                    <p>Navigate through the system effortlessly with our clean and responsive design.</p>
+                </li>
+                <li style={styles.featureItem}>
+                    <h2>Secure Data Storage</h2>
+                    <p>All your financial data is stored securely, ensuring privacy and security.</p>
+                </li>
+                <li style={styles.featureItem}>
+                    <h2>Customizable Settings</h2>
+                    <p>Adjust settings to match your accounting preferences and workflows.</p>
+                </li>
+            </ul>
+            <button onClick={() => navigate('/log')} style={styles.buttonBack}>
+                Back to Home
+            </button>
+        </div>
+    );
+};
+
+export default FeaturesPage;
+
+
+
+
+//TransactionPage.js
+
+import React, { useState, useEffect } from 'react';
+
+const TransactionPage = () => {
+    // Load transactions from localStorage or use default ones
+    const getInitialTransactions = () => {
+        const savedTransactions = localStorage.getItem('transactions');
+        return savedTransactions ? JSON.parse(savedTransactions) : [
+            { id: 1, date: '2024-10-20', amount: 1500, description: 'Office Supplies', type: 'Expense' },
+            { id: 2, date: '2024-10-21', amount: 5000, description: 'Client Payment', type: 'Income' },
+        ];
+    };
+
+    const [transactions, setTransactions] = useState(getInitialTransactions());
+
+    const [newTransaction, setNewTransaction] = useState({
+        date: '',
+        amount: '',
+        description: '',
+        type: 'Expense',
+    });
+
+    const [isEditing, setIsEditing] = useState(false);
+    const [editTransactionId, setEditTransactionId] = useState(null);
+
+    // Save transactions to localStorage whenever they change
+    useEffect(() => {
+        localStorage.setItem('transactions', JSON.stringify(transactions));
+    }, [transactions]);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setNewTransaction({ ...newTransaction, [name]: value });
+    };
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+
+        if (isEditing) {
+            const updatedTransactions = transactions.map((transaction) =>
+                transaction.id === editTransactionId
+                    ? { id: editTransactionId, ...newTransaction }
+                    : transaction
+            );
+            setTransactions(updatedTransactions);
+            setIsEditing(false);
+        } else {
+            const transactionId = transactions.length + 1;
+            setTransactions([...transactions, { id: transactionId, ...newTransaction }]);
+        }
+
+        // Reset form
+        setNewTransaction({ date: '', amount: '', description: '', type: 'Expense' });
+    };
+
+    const handleEdit = (id) => {
+        const transactionToEdit = transactions.find((transaction) => transaction.id === id);
+        setNewTransaction(transactionToEdit);
+        setIsEditing(true);
+        setEditTransactionId(id);
+    };
+
+    const handleDelete = (id) => {
+        const updatedTransactions = transactions.filter(transaction => transaction.id !== id);
+        setTransactions(updatedTransactions);
+    };
+
+    const styles = {
+        container: {
+            fontFamily: 'Arial, sans-serif',
+            padding: '20px',
+            backgroundImage: 'url("https://financeonamission.com/wp-content/uploads/2023/08/data-visualozation.jpg")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            minHeight: '100vh',
+        },
+        heading: {
+            textAlign: 'center',
+            fontSize: '24px',
+            marginBottom: '20px',
+            color: '#fff',
+        },
+        table: {
+            width: '100%',
+            borderCollapse: 'collapse',
+            marginBottom: '20px',
+            backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        },
+        th: {
+            border: '1px solid #ccc',
+            padding: '10px',
+            backgroundColor: '#f4f4f4',
+        },
+        td: {
+            border: '1px solid #ccc',
+            padding: '10px',
+            textAlign: 'center',
+        },
+        buttonDelete: {
+            padding: '5px 10px',
+            backgroundColor: '#e74c3c',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+        },
+        buttonEdit: {
+            padding: '5px 10px',
+            backgroundColor: '#3498db',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            marginRight: '10px',
+        },
+        formContainer: {
+            border: '1px solid #ccc',
+            borderRadius: '8px',
+            padding: '20px',
+            backgroundColor: 'rgba(255, 255, 255, 0.5)',
+            maxWidth: '400px',
+            margin: '20px auto',
+        },
+        form: {
+            display: 'flex',
+            flexDirection: 'column',
+            margin: '0 auto',
+        },
+        input: {
+            margin: '10px 0',
+            padding: '10px',
+            borderRadius: '5px',
+            border: '1px solid #ccc',
+        },
+        buttonAdd: {
+            padding: '10px',
+            backgroundColor: 'rgb(37, 37, 92)',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+        },
+        label: {
+            fontSize: '16px',
+            marginTop: '10px',
+            color: '#fff',
+        },
+        header: {
+            backgroundColor: 'rgb(37, 37, 92)',
+            color: 'white',
+            padding: '20px',
+            position: 'fixed',
+            width: '100%',
+            top: 0,
+            left: 0,
+            zIndex: 1000,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+        },
+        navMenu: {
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginRight: '20px',
+        },
+        navLink: {
+            margin: '0 15px',
+            fontSize: '18px',
+            color: 'white',
+            textDecoration: 'none',
+        },
+        logo: {
+            marginLeft: '20px',
+            fontSize: '24px',
+            color: 'white',
+            fontWeight: 'bold',
+        },
+        footer: {
+            backgroundColor: 'rgb(37, 37, 92)',
+            color: 'white',
+            textAlign: 'center',
+            padding: '20px',
+            position: 'fixed',
+            width: '100%',
+            bottom: 0,
+            left: 0,
+        },
+        mainContent: {
+            paddingTop: '100px',
+            paddingBottom: '100px',
+        },
+    };
+
+    return (
+        <div style={styles.container}>
+            <header style={styles.header}>
+                <div style={styles.logo}>
+                    Accounting System
+                </div>
+                <div style={styles.navMenu}>
+                    <a href="/log" style={styles.navLink}>Home</a>
+                    <a href="/features" style={styles.navLink}>Features</a>
+                    <a href="/reports" style={styles.navLink}>Reports</a>
+                    <a href="/transactions" style={styles.navLink}>Transactions</a>
+                    <a href="/logout" style={styles.navLink}>Logout</a>
+                </div>
+            </header>
+
+            <div style={styles.mainContent}>
+                <h1 style={styles.heading}>Transaction Details</h1>
+                <table style={styles.table}>
+                    <thead>
+                        <tr>
+                            <th style={styles.th}>ID</th>
+                            <th style={styles.th}>Date</th>
+                            <th style={styles.th}>Amount</th>
+                            <th style={styles.th}>Description</th>
+                            <th style={styles.th}>Type</th>
+                            <th style={styles.th}>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {transactions.map((transaction) => (
+                            <tr key={transaction.id}>
+                                <td style={styles.td}>{transaction.id}</td>
+                                <td style={styles.td}>{transaction.date}</td>
+                                <td style={styles.td}>{transaction.amount}</td>
+                                <td style={styles.td}>{transaction.description}</td>
+                                <td style={styles.td}>{transaction.type}</td>
+                                <td style={styles.td}>
+                                    <button
+                                        style={styles.buttonEdit}
+                                        onClick={() => handleEdit(transaction.id)}
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        style={styles.buttonDelete}
+                                        onClick={() => handleDelete(transaction.id)}
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+
+                <div style={styles.formContainer}>
+                    <form onSubmit={handleFormSubmit} style={styles.form}>
+                        <label style={styles.label}>Date:</label>
+                        <input
+                            type="date"
+                            name="date"
+                            value={newTransaction.date}
+                            onChange={handleInputChange}
+                            style={styles.input}
+                            required
+                        />
+
+                        <label style={styles.label}>Amount:</label>
+                        <input
+                            type="number"
+                            name="amount"
+                            value={newTransaction.amount}
+                            onChange={handleInputChange}
+                            style={styles.input}
+                            required
+                        />
+
+                        <label style={styles.label}>Description:</label>
+                        <input
+                            type="text"
+                            name="description"
+                            value={newTransaction.description}
+                            onChange={handleInputChange}
+                            style={styles.input}
+                            required
+                        />
+
+                        <label style={styles.label}>Type:</label>
+                        <select
+                            name="type"
+                            value={newTransaction.type}
+                            onChange={handleInputChange}
+                            style={styles.input}
+                        >
+                            <option value="Expense">Expense</option>
+                            <option value="Income">Income</option>
+                        </select>
+
+                        <button type="submit" style={styles.buttonAdd}>
+                            {isEditing ? 'Update Transaction' : 'Add Transaction'}
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <footer style={styles.footer}>
+                <p>&copy; 2024 Accounting System. All rights reserved.</p>
+            </footer>
+        </div>
+    );
+};
+
+export default TransactionPage;
+
+
+
+//ReportPage.js
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const ReportPage = () => {
+    const navigate = useNavigate();
+
+    const [dateRange, setDateRange] = useState({
+        startDate: '',
+        endDate: '',
+    });
+
+    const [filteredTransactions, setFilteredTransactions] = useState([]);
+
+    // Sample transaction data (for demonstration)
+    const transactions = [
+        { id: 1, date: '2024-10-20', amount: 5000, description: 'Client Payment', type: 'Income' },
+        { id: 2, date: '2024-10-21', amount: 1500, description: 'Office Supplies', type: 'Expense' },
+        { id: 3, date: '2024-10-22', amount: 2000, description: 'Project Payment', type: 'Income' },
+        { id: 4, date: '2024-10-23', amount: 800, description: 'Utilities', type: 'Expense' },
+        { id: 5, date: '2024-10-24', amount: 1200, description: 'Software Subscription', type: 'Expense' },
+    ];
+
+    const handleBack = () => {
+        navigate('/transactions'); // Navigate back to the Transactions page
+    };
+
+    // Handle filtering based on date range
+    const handleFilter = () => {
+        const { startDate, endDate } = dateRange;
+        if (!startDate || !endDate) {
+            alert("Please select both start and end dates.");
+            return;
+        }
+
+        if (new Date(startDate) > new Date(endDate)) {
+            alert("Start date must be earlier than end date.");
+            return;
+        }
+
+        const filtered = transactions.filter(transaction => {
+            const transactionDate = new Date(transaction.date);
+            return transactionDate >= new Date(startDate) && transactionDate <= new Date(endDate);
+        });
+        setFilteredTransactions(filtered);
+    };
+
+    // Calculate totals
+    const totalIncome = filteredTransactions
+        .filter(t => t.type === 'Income')
+        .reduce((acc, curr) => acc + curr.amount, 0);
+
+    const totalExpense = filteredTransactions
+        .filter(t => t.type === 'Expense')
+        .reduce((acc, curr) => acc + curr.amount, 0);
+
+    const netProfit = totalIncome - totalExpense;
+
+    // Breakdown of expenses by category
+    const expenseCategories = filteredTransactions
+        .filter(t => t.type === 'Expense')
+        .reduce((acc, curr) => {
+            acc[curr.description] = (acc[curr.description] || 0) + curr.amount;
+            return acc;
+        }, {});
+
+    // Income sources summary
+    const incomeSources = filteredTransactions
+        .filter(t => t.type === 'Income')
+        .reduce((acc, curr) => {
+            acc[curr.description] = (acc[curr.description] || 0) + curr.amount;
+            return acc;
+        }, {});
+
+    const styles = {
+        container: {
+            fontFamily: 'Arial, sans-serif',
+            padding: '20px',
+            backgroundColor: '#f4f4f4',
+            minHeight: '100vh',
+        },
+        heading: {
+            textAlign: 'center',
+            fontSize: '24px',
+            marginBottom: '20px',
+            color: '#333',
+        },
+        table: {
+            width: '100%',
+            borderCollapse: 'collapse',
+            marginBottom: '20px',
+            backgroundColor: 'white',
+        },
+        th: {
+            border: '1px solid #ccc',
+            padding: '10px',
+            backgroundColor: '#eaeaea',
+        },
+        td: {
+            border: '1px solid #ccc',
+            padding: '10px',
+            textAlign: 'center',
+        },
+        buttonBack: {
+            padding: '10px',
+            backgroundColor: 'rgb(37, 37, 92)',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            marginTop: '20px',
+        },
+        filterContainer: {
+            display: 'flex',
+            justifyContent: 'space-around',
+            marginBottom: '20px',
+        },
+        input: {
+            padding: '10px',
+            borderRadius: '5px',
+            border: '1px solid #ccc',
+            width: '45%', // Adjust width for better spacing
+        },
+        summarySection: {
+            margin: '20px 0',
+        },
+        notesSection: {
+            marginTop: '20px',
+            padding: '10px',
+            border: '1px solid #ccc',
+            borderRadius: '5px',
+            backgroundColor: '#fff',
+        },
+        buttonFilter: {
+            padding: '10px',
+            backgroundColor: 'rgb(37, 37, 92)',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+        },
+        header: {
+            backgroundColor: '#333',
+            color: 'white',
+            padding: '10px 0',
+            textAlign: 'center',
+        },
+        footer: {
+            backgroundColor: '#333',
+            color: 'white',
+            padding: '10px 0',
+            textAlign: 'center',
+            width: '100%',
+            bottom: 0,
+            marginTop: '10px',
+        },
+    };
+
+    return (
+        <div style={styles.container}>
+            {/* Header Section */}
+            <header style={styles.header}>
+                <h1>Company Accounting System</h1>
+                <p>Your trusted platform for financial reports and transactions</p>
+            </header>
+
+            <h1 style={styles.heading}>Reports</h1>
+
+            <div style={styles.filterContainer}>
+                <input
+                    type="date"
+                    value={dateRange.startDate}
+                    onChange={(e) => setDateRange({ ...dateRange, startDate: e.target.value })}
+                    style={styles.input}
+                />
+                <input
+                    type="date"
+                    value={dateRange.endDate}
+                    onChange={(e) => setDateRange({ ...dateRange, endDate: e.target.value })}
+                    style={styles.input}
+                />
+                <button onClick={handleFilter} style={styles.buttonFilter}>Filter</button>
+            </div>
+
+            {/* Summary Stats */}
+            <h2 style={styles.heading}>Summary Statistics</h2>
+            <p><strong>Total Income:</strong> ${totalIncome.toFixed(2)}</p>
+            <p><strong>Total Expense:</strong> ${totalExpense.toFixed(2)}</p>
+            <p><strong>Net Profit:</strong> ${netProfit.toFixed(2)}</p>
+
+            <table style={styles.table}>
+                <thead>
+                    <tr>
+                        <th style={styles.th}>Report ID</th>
+                        <th style={styles.th}>Date</th>
+                        <th style={styles.th}>Total Income</th>
+                        <th style={styles.th}>Total Expense</th>
+                        <th style={styles.th}>Net Profit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {filteredTransactions.length === 0 ? (
+                        <tr>
+                            <td colSpan="5" style={styles.td}>No transactions found for this date range.</td>
+                        </tr>
+                    ) : (
+                        filteredTransactions.map((transaction, index) => (
+                            <tr key={transaction.id}>
+                                <td style={styles.td}>{index + 1}</td>
+                                <td style={styles.td}>{transaction.date}</td>
+                                <td style={styles.td}>{transaction.type === 'Income' ? transaction.amount.toFixed(2) : 0}</td>
+                                <td style={styles.td}>{transaction.type === 'Expense' ? transaction.amount.toFixed(2) : 0}</td>
+                                <td style={styles.td}>{transaction.type === 'Income' ? transaction.amount.toFixed(2) : -transaction.amount.toFixed(2)}</td>
+                            </tr>
+                        ))
+                    )}
+                </tbody>
+            </table>
+
+            {/* Breakdown of Expenses by Category */}
+            <h2 style={styles.heading}>Expense Breakdown</h2>
+            <ul>
+                {Object.entries(expenseCategories).length === 0 ? (
+                    <li>No expenses to display.</li>
+                ) : (
+                    Object.entries(expenseCategories).map(([category, amount]) => (
+                        <li key={category}>{category}: ${amount.toFixed(2)}</li>
+                    ))
+                )}
+            </ul>
+
+            {/* Income Sources Summary */}
+            <h2 style={styles.heading}>Income Sources Summary</h2>
+            <ul>
+                {Object.entries(incomeSources).length === 0 ? (
+                    <li>No income to display.</li>
+                ) : (
+                    Object.entries(incomeSources).map(([source, amount]) => (
+                        <li key={source}>{source}: ${amount.toFixed(2)}</li>
+                    ))
+                )}
+            </ul>
+
+            {/* Notes Section */}
+            <div style={styles.notesSection}>
+                <h3>Notes</h3>
+                <p>Review the above reports to analyze the financial performance of the business. Pay special attention to areas where expenses can be reduced.</p>
+            </div>
+
+            <button onClick={handleBack} style={styles.buttonBack}>
+                Back to Transactions
+            </button>
+
+            {/* Footer Section */}
+            <footer style={styles.footer}>
+                <p>© 2024 Company Name | All Rights Reserved</p>
+            </footer>
+        </div>
+    );
+};
+
+export default ReportPage;
+
+
+
+
+
+//db.json
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "testuser",
+      "email": "testuser@example.com",
+      "password": "password123"
+    },
+    {
+      "id": "2",
+      "username": "anotheruser",
+      "email": "anotheruser@example.com",
+      "password": "anotherpassword"
+    },
+    {
+      "id": "54c1",
+      "username": "hi",
+      "email": "hi@gmail.com",
+      "password": "123"
+    },
+    {
+      "id": "a3b5",
+      "username": "varshu",
+      "email": "varshu@gmail.com",
+      "password": "varshulove"
+    },
+    {
+      "id": "e4fa",
+      "username": "hi",
+      "email": "hi@gmail.com",
+      "password": "h1"
+    },
+    {
+      "id": "0eab",
+      "username": "jd",
+      "email": "jd@gmail.com",
+      "password": "jd1"
+    }
+  ]
+}
+
